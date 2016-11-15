@@ -8,17 +8,23 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'homeUrl' => '/admin',
     'basePath' => dirname(__DIR__),
+//    'defaultRoute' => 'layouts',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        "rbac" => [
+            "class" => "mdm\admin\Module",
+        ],
+    ],
+    "aliases" => [
+        "@mdm/rbac" => "@vendor/mdmsoft/yii2-admin",
+    ],
     'components' => [
-        "view" => [
-            "theme" => [
-                "pathMap" => [
-                    "@app/views" => "@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app"
-                ],
-            ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
         ],
         'assetManager' => [
             'bundles' => [
@@ -27,8 +33,13 @@ return [
                 ],
             ],
         ],
+        "authManager" => [
+            "class" => 'yii\rbac\DbManager', //这里记得用单引号而不是双引号
+            "defaultRoles" => ["guest"],
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'baseUrl' => '/admin',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -59,6 +70,15 @@ return [
             ],
         ],
         */
+    ],
+    'as access' => [
+        //ACF肯定是要加的，因为粗心导致该配置漏掉了，很是抱歉
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            //这里是允许访问的action
+            //controller/action
+            '*'
+        ]
     ],
     'params' => $params,
 ];
