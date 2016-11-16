@@ -5,7 +5,8 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use backend\models\User;
+//use common\models\LoginForm;
 
 /**
  * Site controller
@@ -22,7 +23,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','reg'],
                         'allow' => true,
                     ],
                     [
@@ -64,35 +65,30 @@ class SiteController extends Controller
     }
 
     /**
-     * Login action.
-     *
-     * @return string
+     * 用户登录
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        $model = new User();
+        return $this->render('login',['model' => $model]);
     }
 
     /**
-     * Logout action.
+     * 用户注册
      *
-     * @return string
      */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
+    public function actionReg() {
+        $model = new User();
+        if(Yii::$app->request->isPost) {
+            $post = Yii::$app->request->post();
+            if($model->setAdmin($post)) {
+                Yii::$app->session->setFlash('info','注册成功');
+            } else {
+//                var_dump($datas);
+                Yii::$app->session->setFlash('info','注册失败');
+//                echo $info;
+            }
+        }
+        return $this->render('reg',['model' => $model]);
     }
 }
