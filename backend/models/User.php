@@ -44,8 +44,9 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'stuid', 'email', 'created_at', 'updated_at'], 'required','on' => 'setAdmin'],
-            [['status', 'created_at', 'updated_at'], 'integer','on' => 'setAdmin'],
+            [['username', 'password','stuid', 'email'], 'required','on' => 'setAdmin'],
+//            [['status', 'created_at', 'updated_at'], 'integer','on' => 'setAdmin'],
+
            /* ['auth_key','safe','on' => 'setAdmin'],
             ['password_hash','safe','on' => 'setAdmin'],*/
             [['username', 'auth_key'], 'string', 'max' => 32],
@@ -74,15 +75,9 @@ class User extends \yii\db\ActiveRecord
 
     public function setAdmin($data) {
         $this->scenario = 'setAdmin';
-        $this->password_hash = $this->setPassword($data['User']['password']);
-        $data['User']['password_hash'] = $this->password_hash;
-        $this->auth_key = Yii::$app->security->generateRandomString();
-        $data['User']['auth_key'] = $this->auth_key;
         if($this->load($data) && $this->validate()) {
-//            $this->password_hash = $this->setPassword($data['User']['password']);
-//            $data['User']['password_hash'] = $this->password_hash;
+           $this->password_hash = $this->setPassword($data['User']['password']);
             $this->auth_key = Yii::$app->security->generateRandomString();
-//            $data['User']['auth_key'] = $this->auth_key;
             if($this->save(false)) {
                 return true;
             }
@@ -114,13 +109,9 @@ class User extends \yii\db\ActiveRecord
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
-    /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
-     */
+
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        return Yii::$app->security->generatePasswordHash($password);
     }
 }
