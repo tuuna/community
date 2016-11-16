@@ -14,12 +14,12 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        "rbac" => [
+        "admin" => [
             "class" => "mdm\admin\Module",
         ],
     ],
     "aliases" => [
-        "@mdm/rbac" => "@vendor/mdmsoft/yii2-admin",
+        "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",
     ],
     'components' => [
         'urlManager' => [
