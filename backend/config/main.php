@@ -10,7 +10,7 @@ return [
     'id' => 'app-backend',
     'homeUrl' => '/admin',
     'basePath' => dirname(__DIR__),
-//    'defaultRoute' => 'layouts',
+    'defaultRoute' => '/site/login',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [

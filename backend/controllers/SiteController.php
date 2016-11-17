@@ -23,14 +23,14 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','reg'],
+                        'actions' => ['login', 'error','reg','index','logout'],
                         'allow' => true,
                     ],
-                    [
+ /*                   [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ],*/
                 ],
             ],
             'verbs' => [
@@ -54,15 +54,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
 
     /**
      * 用户登录
@@ -73,7 +64,7 @@ class SiteController extends Controller
         if(Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             if($model->login($post)) {
-                return $this->redirect('site/index');
+                return $this->redirect(['main/index']);
             } else {
                 Yii::$app->session->setFlash('info','用户名不存在或密码错误');
             }
@@ -96,5 +87,14 @@ class SiteController extends Controller
             }
         }
         return $this->render('reg',['model' => $model]);
+    }
+
+    /**
+     * @return \yii\web\Response
+     * 用户退出
+     */
+    public function actionLogout() {
+        Yii::$app->session->destroy();
+        return $this->redirect('login');
     }
 }
