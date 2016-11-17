@@ -70,6 +70,14 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $model = new User();
+        if(Yii::$app->request->isPost) {
+            $post = Yii::$app->request->post();
+            if($model->login($post)) {
+                return $this->redirect('site/index');
+            } else {
+                Yii::$app->session->setFlash('info','用户名不存在或密码错误');
+            }
+        }
         return $this->render('login',['model' => $model]);
     }
 
@@ -84,9 +92,7 @@ class SiteController extends Controller
             if($model->setAdmin($post)) {
                 Yii::$app->session->setFlash('info','注册成功');
             } else {
-//                var_dump($datas);
                 Yii::$app->session->setFlash('info','注册失败');
-//                echo $info;
             }
         }
         return $this->render('reg',['model' => $model]);

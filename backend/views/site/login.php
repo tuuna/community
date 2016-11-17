@@ -38,7 +38,11 @@ $fieldOptions2 = [
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-
+        <?php
+            if(Yii::$app->session->hasFlash('info')) {
+                echo Yii::$app->session->getFlash('info');
+            }
+        ?>
         <div class="row">
            <!-- <div class="col-xs-8">
                 <?/*= $form->field($model, 'rememberMe')->checkbox() */?>

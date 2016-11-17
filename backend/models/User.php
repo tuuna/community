@@ -46,7 +46,7 @@ class User extends \yii\db\ActiveRecord
         return [
             [['username', 'password','stuid', 'email'], 'required','on' => 'setAdmin'],
 //            [['status', 'created_at', 'updated_at'], 'integer','on' => 'setAdmin'],
-
+            [['username','password'],'required','on' => 'login'],
            /* ['auth_key','safe','on' => 'setAdmin'],
             ['password_hash','safe','on' => 'setAdmin'],*/
             [['username', 'auth_key'], 'string', 'max' => 32],
@@ -73,6 +73,11 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @param $data
+     * @return bool
+     * 用户注册
+     */
     public function setAdmin($data) {
         $this->scenario = 'setAdmin';
         if($this->load($data) && $this->validate()) {
@@ -81,12 +86,30 @@ class User extends \yii\db\ActiveRecord
             if($this->save(false)) {
                 return true;
             }
-
         } else {
-//            return $this;
             return false;
         }
     }
+
+    /**
+     * 用户登录
+     */
+    public function login($data) {
+        $this->scenario = 'login';
+        if($this->validateUser($data['User']['username'])) {
+            if($this->validateStatus($data['User']['username']) && $this->validatePassword($data['User']['password'],$data['User']['username'])){
+                $session = Yii::$app->session;
+                $session['login_id'] = User::find()->where(['username' => $data['User']['username']])->one()->id;
+                $session['isLogin'] = 1;
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+
 
     /**
      * @inheritdoc
@@ -97,6 +120,26 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param $user
+     * @return bool
+     * 验证用户是否存在
+     */
+
+    public function validateUser($user) {
+        return (bool)User::find()->where(['username' => $user])->one();
+    }
+
+
+    /**
+     * @param $user
+     * @return mixed
+     * 验证帐号是否可用
+     */
+    public function validateStatus($user) {
+        return User::find()->where(['username' => $user])->one()->status;
+    }
+
+    /**
      * @inheritdoc
      */
     public function validateAuthKey($authKey)
@@ -104,12 +147,14 @@ class User extends \yii\db\ActiveRecord
         return $this->getAuthKey() === $authKey;
     }
 
-    public function validatePassword($password)
+    public function validatePassword($password,$user)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword($password, $this->getPasswordHash($user));
     }
 
-
+    public function getPasswordHash($user) {
+        return $this->password_hash = User::find()->where(['username' => $user])->one()->password_hash;
+    }
     public function setPassword($password)
     {
         return Yii::$app->security->generatePasswordHash($password);
