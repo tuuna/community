@@ -63,11 +63,12 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => '用户名',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
-            'stuid' => 'Student_id',
-            'email' => 'Email',
+            'password' => '密码',
+            'stuid' => '学号',
+            'email' => '邮箱',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

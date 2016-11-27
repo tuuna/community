@@ -23,9 +23,13 @@
                     <?= Yii::$app->formatter->asDate($user->created_at,'php:Y-m-d H:i:s')?>
                 </td>
                 <td>
-                    <a class="link-update" href="<?= yii\helpers\Url::to(['userinfo/modify'])?>">修改</a>
-                    <a class="link-del" onclick="return confirm('您确定要删除吗?')" href="<?= yii\helpers\Url::to(['userinfo/delete'])?>">删除</a>
+                    <a class="link-del" onclick="return confirm('您确定要删除吗?')" href="<?= yii\helpers\Url::to(['userinfo/del','id' => $user->id])?>">删除</a>
                 </td>
+                <?php
+                    if(Yii::$app->session->hasFlash('info')) {
+                        echo Yii::$app->session->getFlash('info');
+                    }
+                ?>
             </tr>
             <?php endforeach;?>
         </table>
