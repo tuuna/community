@@ -20,6 +20,7 @@ use Yii;
 class User extends \yii\db\ActiveRecord
 {
     public $password;
+    CONST STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -92,6 +93,13 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * 用户信息获取
+     */
+    public function getUserInfo() {
+        return $this->find()->all();
+    }
+
+    /**
      * 用户登录
      */
     public function login($data) {
@@ -99,7 +107,7 @@ class User extends \yii\db\ActiveRecord
         if($this->validateUser($data['User']['username'])) {
             if($this->validateStatus($data['User']['username']) && $this->validatePassword($data['User']['password'],$data['User']['username'])){
                 $session = Yii::$app->session;
-                $session['login_id'] = User::find()->where(['username' => $data['User']['username']])->one()->id;
+                $session['login_name'] = $data['User']['username'];
                 $session['isLogin'] = 1;
                 return true;
             }
@@ -109,6 +117,13 @@ class User extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+    }
 
 
     /**
