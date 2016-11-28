@@ -10,12 +10,20 @@ namespace backend\controllers;
 use backend\controllers\CommonController;
 use common\models\Category;
 use Yii;
+use yii\data\Pagination;
 
 class CategoryController extends CommonController {
     public function actionIndex() {
-        $model = new Category();
-        $cateInfo = $model->cateInfo();
-        return $this->render('index',['cateInfo' => $cateInfo]);
+        $query = Category::find();
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 10]);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('index', [
+            'models' => $models,
+            'pages' => $pages,
+        ]);
     }
 
     public function actionAdd() {

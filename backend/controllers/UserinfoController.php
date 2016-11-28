@@ -10,12 +10,20 @@ namespace backend\controllers;
 use backend\controllers\CommonController;
 use backend\models\User;
 use Yii;
+use yii\data\Pagination;
 
 class UserinfoController extends CommonController {
     public function actionIndex() {
-        $model = new User();
-        $userInfo = $model->getUserInfo();
-        return $this->render('index',['userInfo' => $userInfo]);
+        $query = User::find();
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 10]);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('index', [
+            'models' => $models,
+            'pages' => $pages,
+        ]);
     }
 
     public function actionAdd() {

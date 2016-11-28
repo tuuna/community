@@ -1,3 +1,6 @@
+<?php
+use yii\widgets\LinkPager;
+?>
 <div class="result-title">
     <div class="result-list">
         <a href="<?php echo yii\helpers\Url::to(['category/add']);?>" class="btn btn-primary btn2">新增分类</a>
@@ -10,7 +13,7 @@
                 <th>更新时间</th>
                 <th>操作</th>
             </tr>
-            <?php foreach ($cateInfo as $cate) :?>
+            <?php foreach ($models as $cate) :?>
                 <tr>
                     <td><?= $cate->catename;?></td>
                     <td>
@@ -31,5 +34,8 @@
                 </tr>
             <?php endforeach;?>
         </table>
-        <div class="list-page">{$page}</div>
+        <div class="list-page">
+            <?php echo LinkPager::widget([
+            'pagination' => $pages,
+            ])?></div>
     </div>

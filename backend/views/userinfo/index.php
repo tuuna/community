@@ -1,3 +1,6 @@
+<?php
+use yii\widgets\LinkPager;
+?>
 <div class="result-title">
     <div class="result-list">
         <a href="<?php echo yii\helpers\Url::to(['userinfo/add']);?>" class="btn btn-primary btn2">新增用户</a>
@@ -11,7 +14,7 @@
                 <th>创建时间</th>
                 <th>操作</th>
             </tr>
-            <?php foreach ($userInfo as $user) :?>
+            <?php foreach ($models as $user) :?>
             <tr>
                 <td><?= $user->username;?></td>
                 <td>
@@ -33,5 +36,9 @@
             </tr>
             <?php endforeach;?>
         </table>
-        <div class="list-page">{$page}</div>
+        <div class="list-page">
+            <?php echo LinkPager::widget([
+                'pagination' => $pages,
+            ])?>
+        </div>
     </div>

@@ -6,6 +6,9 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
     ],
+    'modules' => [
+        'redactor' => 'yii\redactor\RedactorModule',
+    ],
     'language'=>'zh-CN',
     'timeZone'=>'Asia/Shanghai',
 ];
