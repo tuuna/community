@@ -41,8 +41,8 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['parentid', 'created_at', 'updated_at'], 'integer'],
 //            [['created_at', 'updated_at'], 'required'],
-            [['catename'], 'string', 'max' => 40,'message' => '分类名不能过长','on' => 'addCate'],
-            [['catename'], 'unique','message' => '分类名已存在','on' => 'addCate'],
+            [['catename'], 'string', 'max' => 40,'message' => '分类名不能过长','on' => ['addCate','updateCate']],
+            [['catename'], 'unique','message' => '分类名已存在','on' => ['addCate']],
         ];
     }
 
@@ -67,6 +67,18 @@ class Category extends \yii\db\ActiveRecord
     public function addCate($data) {
         $this->scenario = 'addCate';
         if($this->load($data) && $this->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateCate($data) {
+        $this->scenario = 'updateCate';
+        $datas = $this->findOne($data['Category']['cateid']);
+        $datas->catename = $data['Category']['catename'];
+        $datas->updated_at = time();
+        if($datas->save()) {
             return true;
         } else {
             return false;

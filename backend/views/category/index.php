@@ -7,6 +7,7 @@
             <tr>
                 <th>分类名</th>
                 <th>创建时间</th>
+                <th>更新时间</th>
                 <th>操作</th>
             </tr>
             <?php foreach ($cateInfo as $cate) :?>
@@ -14,6 +15,9 @@
                     <td><?= $cate->catename;?></td>
                     <td>
                         <?= Yii::$app->formatter->asDate($cate->created_at,'php:Y-m-d H:i:s')?>
+                    </td>
+                    <td>
+                        <?= Yii::$app->formatter->asDate($cate->updated_at,'php:Y-m-d H:i:s')?>
                     </td>
                     <td>
                         <a class="link-update" href="<?= yii\helpers\Url::to(['category/modify','id' => $cate->cateid])?>">修改</a>

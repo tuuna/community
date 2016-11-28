@@ -32,6 +32,17 @@ class CategoryController extends CommonController {
 
     public function actionModify() {
         $model = new Category();
+        $id = Yii::$app->request->get()['id'];
+        $cateInfo = $model->find()->where(['cateid' => $id])->one();
+//        $data['Category']['catename'] = Yii::$app->request->post();
+        if(Yii::$app->request->isPost) {
+            $post = Yii::$app->request->post();
+            $model->updateCate($post) ?
+                $this->redirect('index') :
+                Yii::$app->session->setFlash('info','修改失败');
+        }
+
+        return $this->render('modify',['cateInfo' => $cateInfo,'model' => $model]);
     }
 
     public function actionDel() {
