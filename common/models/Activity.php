@@ -96,4 +96,12 @@ class Activity extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    public function getTag() {
+        return $this->hasMany(Tag::className(),['tagid' => 'tagid']);
+    }
+
+    public function getActivity_tag() {
+        return $this->hasMany(Activity::className(),['acid' => 'acid']);
+    }
 }
