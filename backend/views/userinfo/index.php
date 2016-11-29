@@ -9,6 +9,7 @@ use yii\widgets\LinkPager;
         <table class="result-tab" width="100%">
             <tr>
                 <th>用户名</th>
+                <th>角色权限</th>
                 <th>学号</th>
                 <th>邮件</th>
                 <th>创建时间</th>
@@ -16,7 +17,8 @@ use yii\widgets\LinkPager;
             </tr>
             <?php foreach ($models as $user) :?>
             <tr>
-                <td><?= $user->username;?></td>
+                <td><?= $user->username ?></td>
+                <td><?= $user->role ?></td>
                 <td>
                     <?= $user->stuid?>
                 <td>
