@@ -2,6 +2,7 @@
 
 namespace common\models;
 use yii\behaviors\TimestampBehavior;
+use common\models\Tag;
 use Yii;
 
 /**
@@ -48,7 +49,8 @@ class Activity extends \yii\db\ActiveRecord
             [['address'], 'string', 'max' => 60],
             [['pic'], 'string', 'max' => 100],
             ['title','required','message' => '需要输入活动标题','on' => 'addActivity'],
-            ['title','unique','message' => '标题重复','on' => 'addActivity']
+            ['title','unique','message' => '标题重复','on' => 'addActivity'],
+            ['tagcontent','safe']
         ];
     }
 
@@ -98,10 +100,17 @@ class Activity extends \yii\db\ActiveRecord
     }
 
     public function getTag() {
-        return $this->hasMany(Tag::className(),['tagid' => 'tagid']);
+        return $this->hasMany(Tag::className(), ['tagid' => 'acid']);
     }
 
-    public function getActivity_tag() {
-        return $this->hasMany(Activity::className(),['acid' => 'acid']);
-    }
+
+   /* public function getActivity_tag() {
+        return $this->hasMany(Activity_tag::className(),['acid' => 'acid']);
+    }*/
+
+    /*public function getTag()
+    {
+        return $this->hasMany(Tag::className(), ['tagid' => 'tagid'])
+            ->viaTable('activity_tag', ['acid' => 'acid']);
+    }*/
 }

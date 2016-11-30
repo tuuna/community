@@ -14,6 +14,8 @@
 
         echo $form->field($model,'exppeo')->textInput();
 
+        echo $form->field($model,'tagcontent')->textInput(['placeholder' => '如有多个标签请用,号分割']);
+
         echo $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className());
 
         ?>

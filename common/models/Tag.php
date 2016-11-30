@@ -49,16 +49,17 @@ class Tag extends \yii\db\ActiveRecord
         return [
             'tagid' => 'Tagid',
             'tagcontent' => '标签名',
+            'updated_at' => 'updateat',
         ];
     }
 
-    public function getActivity() {
+    /*public function getActivity() {
         return $this->hasMany(Activity::className(), ['acid' => 'acid']);
     }
 
     public function getActivity_tag() {
         return $this->hasMany(Activity_tag::className(),['tagid' => 'tagid']);
-    }
+    }*/
 
     public function addTags($data) {
         $this->scenario = 'addTags';
@@ -79,6 +80,11 @@ class Tag extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function getActivity() {
+        return $this->hasMany(Activity::className(), ['acid' => 'acid'])
+            ->viaTable('activity_tag', ['acid' => 'id']);
     }
 
 }

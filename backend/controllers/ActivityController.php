@@ -2,6 +2,8 @@
 namespace backend\controllers;
 use backend\controllers\CommonController;
 use common\models\Activity;
+use common\models\Tag;
+use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use Yii;
 /**
@@ -14,16 +16,24 @@ use Yii;
 class ActivityController extends CommonController {
 
     public function actionIndex() {
-        $query = Activity::find();
-        $countQuery = clone $query;
+
+        $query = Tag::find()->joinWith('tag');
+        //$q = $query->where('activity_tag.tagid = :tagid' ,[':tagid' => 1])->all();
+        //var_dump($q);
+//        $activity = new Activity();
+//        $tag = new Tag();
+//        $data = $tag->find()->all();
+//        $activity = link('tags',$tag);
+//        $data = $activity->find()->all();
+        /*$countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 10]);
         $models = $query->offset($pages->offset)
             ->limit($pages->limit)
-            ->all();
-        return $this->render('index', [
-            'models' => $models,
-            'pages' => $pages,
-        ]);
+            ->all();*/
+//        return $this->render('index', [
+//            'models' => $models,
+//            'pages' => $pages,
+//        ]);
     }
 
     public function actionAdd() {

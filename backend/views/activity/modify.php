@@ -14,6 +14,8 @@
 
         echo $form->field($model,'exppeo')->textInput(['value' => $acInfo->exppeo]);
 
+        echo $form->field($model,'tagcontent')->textInput(['value' => $acInfo->tagcontent]);
+
         echo $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className())->textarea(['value' => $acInfo->content]);
 
         ?>
