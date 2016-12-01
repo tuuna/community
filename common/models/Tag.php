@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tag".
@@ -60,6 +61,12 @@ class Tag extends \yii\db\ActiveRecord
     public function getActivity_tag() {
         return $this->hasMany(Activity_tag::className(),['tagid' => 'tagid']);
     }*/
+
+    public static function dropDownList() {
+        $query = static :: find();
+        $enum = $query->all();
+        return $enum ? ArrayHelper::map($enum,'tagid','tagcontent') : [];
+    }
 
     public function addTags($data) {
         $this->scenario = 'addTags';

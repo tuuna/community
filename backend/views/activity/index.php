@@ -12,7 +12,7 @@ use yii\widgets\LinkPager;
                 <th>活动地址</th>
                 <th>活动时间</th>
                 <th>活动内容</th>
-                <th>活动标签</th>
+<!--                <th>活动标签</th>-->
                 <th>点击量</th>
                 <th>关注量</th>
                 <th>创建时间</th>
@@ -29,9 +29,6 @@ use yii\widgets\LinkPager;
                     </td>
                     <td>
                         <?= mb_substr($activity->content,0,20)?>
-                    </td>
-                    <td>
-                        <?= $activity->tagcontent ?>
                     </td>
                     <td>
                         <?= $activity->click ?>

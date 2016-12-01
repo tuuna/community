@@ -22,6 +22,7 @@ use Yii;
  */
 class Activity extends \yii\db\ActiveRecord
 {
+    public $tag;
     /**
      * @inheritdoc
      */
@@ -48,9 +49,9 @@ class Activity extends \yii\db\ActiveRecord
             [['actime'],'string','max' => 100],
             [['address'], 'string', 'max' => 60],
             [['pic'], 'string', 'max' => 100],
-            ['title','required','message' => '需要输入活动标题','on' => 'addActivity'],
-            ['title','unique','message' => '标题重复','on' => 'addActivity'],
-            ['tagcontent','safe']
+            ['title','required','message' => '需要输入活动标题'],
+            ['title','unique','message' => '标题重复'],
+            ['tag','safe']
         ];
     }
 

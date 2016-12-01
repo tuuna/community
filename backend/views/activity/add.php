@@ -1,6 +1,7 @@
 <div class="result-wrap">
     <div class="result-content">
         <?php
+        use common\models\Tag;
         use yii\bootstrap\ActiveForm;
         use Yii;
         use yii\helpers\Html;
@@ -14,7 +15,7 @@
 
         echo $form->field($model,'exppeo')->textInput();
 
-        echo $form->field($model,'tagcontent')->textInput(['placeholder' => '如有多个标签请用,号分割']);
+        echo $form->field($model, 'tag')->label('标签')->checkboxList(Tag::dropDownList());
 
         echo $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className());
 
